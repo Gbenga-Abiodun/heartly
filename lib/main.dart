@@ -9,17 +9,17 @@ void main() {
 class MyApp extends StatelessWidget {
   const MyApp({super.key});
 
-  // This widget is the root of your application.
   @override
   Widget build(BuildContext context) {
     return GetMaterialApp(
       debugShowCheckedModeBanner: false,
       title: 'Heartly',
       theme: ThemeData(
+        visualDensity: VisualDensity.adaptivePlatformDensity,
         fontFamily: "blackBerry",
 
         // colorScheme: ,
-        useMaterial3: true,
+        // useMaterial3: true,
       ),
       getPages: RouteHelpers.routes,
       initialRoute: RouteHelpers.getInitial(),

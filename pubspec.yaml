@@ -38,6 +38,7 @@ dependencies:
   get: ^4.6.6
   font_awesome_flutter: ^10.7.0
   animated_text_kit: ^4.2.2
+  auto_size_text: ^3.0.0
 
 dev_dependencies:
   flutter_test:
