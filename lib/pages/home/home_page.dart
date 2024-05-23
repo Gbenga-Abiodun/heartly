@@ -4,6 +4,8 @@ import 'package:get/get.dart';
 import 'package:heartly/routes/route_helpers.dart';
 import 'package:heartly/utils/colors.dart';
 
+import '../../utils/dimensions.dart';
+
 class HomePage extends StatelessWidget {
   const HomePage({Key? key}) : super(key: key);
 
@@ -13,7 +15,7 @@ class HomePage extends StatelessWidget {
       appBar: AppBar(
         title: Text(
           "HomePage",
-          style: TextStyle(fontSize: 24, color: Colors.white),
+          style: TextStyle(fontSize: Dimensions.height12 * 2, color: Colors.white),
         ),
         backgroundColor: AppColors.heartColor,
         automaticallyImplyLeading: false,
@@ -21,11 +23,11 @@ class HomePage extends StatelessWidget {
           GestureDetector(
             onTap: () => Get.toNamed(RouteHelpers.getNotificationPage()),
             child: Padding(
-              padding: const EdgeInsets.all(8.0),
+              padding:  EdgeInsets.all(Dimensions.height8,),
               child: Icon(
                 FontAwesomeIcons.bell,
                 color: Colors.white,
-                size: 26,
+                size: Dimensions.height12 * 2.166666666666667,
               ),
             ),
           )

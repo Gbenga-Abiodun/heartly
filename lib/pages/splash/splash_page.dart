@@ -8,6 +8,7 @@ import 'package:heartly/utils/colors.dart';
 import 'package:heartly/widgets/big_text.dart';
 
 import '../../routes/route_helpers.dart';
+import '../../utils/dimensions.dart';
 
 class SplashPage extends StatefulWidget {
   const SplashPage({Key? key}) : super(key: key);
@@ -37,8 +38,8 @@ class _SplashPageState extends State<SplashPage> {
           mainAxisAlignment: MainAxisAlignment.center,
           children: [
             DefaultTextStyle(
-              style: const TextStyle(
-                fontSize: 60.0,
+              style:  TextStyle(
+                fontSize: Dimensions.height10 * 6,
                 fontFamily: 'blackBerry',
               ),
               child: AnimatedTextKit(
