@@ -26,34 +26,40 @@ class _SplashPageState extends State<SplashPage> {
   void initState() {
     // TODO: implement initState
     super.initState();
-    Timer(const Duration(seconds: 3), () => Get.offAllNamed(RouteHelpers.getHomePage()));
+    Timer(const Duration(milliseconds: 2000), () => Get.offAllNamed(RouteHelpers.getHomePage()));
   }
   @override
   Widget build(BuildContext context) {
     return Scaffold(
       backgroundColor: AppColors.heartColor,
-      body: Column(
-        mainAxisAlignment: MainAxisAlignment.center,
-        children: [
-          DefaultTextStyle(
-            style: const TextStyle(
-              fontSize: 40.0,
-              fontFamily: 'blackBerry',
-            ),
-            child: AnimatedTextKit(
-              animatedTexts: [
-                TyperAnimatedText('Heartly'),
-                // TyperAnimatedText('you must know what to do,'),
-                // TyperAnimatedText('and then do your best'),
-                // TyperAnimatedText('- W.Edwards Deming'),
-              ],
-              // onTap: () {
-              //   print("Tap Event");
-              // },
-            ),
-          ),
+      body: Center(
+        child: Column(
+          mainAxisAlignment: MainAxisAlignment.center,
+          children: [
+            DefaultTextStyle(
+              style: const TextStyle(
+                fontSize: 60.0,
+                fontFamily: 'blackBerry',
+              ),
+              child: AnimatedTextKit(
 
-        ],
+
+                animatedTexts: [
+                  TyperAnimatedText('Heartly'),
+
+                  // TyperAnimatedText('you must know what to do,'),
+                  // TyperAnimatedText('and then do your best'),
+                  // TyperAnimatedText('- W.Edwards Deming'),
+                ],
+
+                // onTap: () {
+                //   print("Tap Event");
+                // },
+              ),
+            ),
+
+          ],
+        ),
       ),
     );
   }

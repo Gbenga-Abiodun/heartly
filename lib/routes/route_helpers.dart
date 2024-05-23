@@ -1,15 +1,19 @@
 import 'package:get/get_navigation/src/routes/get_route.dart';
 import 'package:get/get_navigation/src/routes/transitions_type.dart';
 import 'package:heartly/pages/home/home_page.dart';
+import 'package:heartly/pages/notifications/notification_page.dart';
 import 'package:heartly/pages/splash/splash_page.dart';
 
 class RouteHelpers{
   static const String initial = "/";
 
   static String getInitial() => '$initial';
-  static const String homePage = "/notification-page";
+  static const String homePage = "/home-page";
 
   static String getHomePage() => '$homePage';
+  static const String notificationPage = "/notification-page";
+
+  static String getNotificationPage() => '$notificationPage';
 
 
   static List<GetPage> routes = [
@@ -21,6 +25,11 @@ class RouteHelpers{
     GetPage(
       name: homePage,
       page: () => HomePage(),
+      transition: Transition.native,
+    ),
+    GetPage(
+      name: notificationPage,
+      page: () => NotificationPage(),
       transition: Transition.native,
     ),
 

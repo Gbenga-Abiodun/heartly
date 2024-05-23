@@ -1,5 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
+import 'package:get/get.dart';
+import 'package:heartly/routes/route_helpers.dart';
 import 'package:heartly/utils/colors.dart';
 
 class HomePage extends StatelessWidget {
@@ -11,16 +13,20 @@ class HomePage extends StatelessWidget {
       appBar: AppBar(
         title: Text(
           "HomePage",
-          style: TextStyle(fontSize: 20, color: Colors.white),
+          style: TextStyle(fontSize: 24, color: Colors.white),
         ),
         backgroundColor: AppColors.heartColor,
-        leading: SizedBox(),
+        automaticallyImplyLeading: false,
         actions: [
           GestureDetector(
-            child: Icon(
-              FontAwesomeIcons.bell,
-              color: Colors.white,
-              size: 26,
+            onTap: () => Get.toNamed(RouteHelpers.getNotificationPage()),
+            child: Padding(
+              padding: const EdgeInsets.all(8.0),
+              child: Icon(
+                FontAwesomeIcons.bell,
+                color: Colors.white,
+                size: 26,
+              ),
             ),
           )
         ],
