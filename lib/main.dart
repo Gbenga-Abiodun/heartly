@@ -1,8 +1,10 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
+import 'package:heartly/helpers/dependencies.dart' as dep;
 import 'package:heartly/routes/route_helpers.dart';
 
-void main() {
+void main() async{
+  await dep.init();
   runApp(const MyApp());
 }
 

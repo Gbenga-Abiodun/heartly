@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:font_awesome_flutter/font_awesome_flutter.dart';
+import 'package:get/get.dart';
 
 import '../../utils/colors.dart';
 import '../../utils/dimensions.dart';
@@ -12,12 +12,26 @@ class NotificationPage extends StatelessWidget {
     return Scaffold(
       backgroundColor: Colors.white,
       appBar: AppBar(
+        leading: Padding(
+          padding: EdgeInsets.symmetric(
+            horizontal: 10,
+          ),
+          child: GestureDetector(
+            onTap: () => Get.back(),
+            child: const Icon(
+              Icons.arrow_back_ios,
+              size: 24,
+              color: Colors.white,
+            ),
+          ),
+        ),
         title: Text(
           "Notifications",
-          style: TextStyle(fontSize: Dimensions.height12 * 2, color: Colors.white),
+          style:
+              TextStyle(fontSize: Dimensions.height12 * 2, color: Colors.white),
         ),
         backgroundColor: AppColors.heartColor,
-        automaticallyImplyLeading: false,
+        // automaticallyImplyLeading: false,
         // actions: [
         //   GestureDetector(
         //     child: Padding(

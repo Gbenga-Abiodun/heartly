@@ -27,7 +27,7 @@ class _SplashPageState extends State<SplashPage> {
   void initState() {
     // TODO: implement initState
     super.initState();
-    Timer(const Duration(milliseconds: 2000), () => Get.offAllNamed(RouteHelpers.getHomePage()));
+    Timer(const Duration(seconds: 4,), () => Get.offAllNamed(RouteHelpers.getHomePage()));
   }
   @override
   Widget build(BuildContext context) {
@@ -46,7 +46,7 @@ class _SplashPageState extends State<SplashPage> {
 
 
                 animatedTexts: [
-                  TyperAnimatedText('Heartly'),
+                  TyperAnimatedText('Heartly', speed: Duration(seconds: 3,),),
 
                   // TyperAnimatedText('you must know what to do,'),
                   // TyperAnimatedText('and then do your best'),
