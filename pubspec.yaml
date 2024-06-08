@@ -39,10 +39,11 @@ dependencies:
   font_awesome_flutter: ^10.7.0
   animated_text_kit: ^4.2.2
   auto_size_text: ^3.0.0
-  shared_preferences: ^2.2.3
+#  shared_preferences: ^2.2.3
   flutter_slidable:
-  flutter_tts: ^4.0.2
+  flutter_tts: ^3.2.2
   flutter_gemini: ^2.0.4
+  cached_network_image: ^3.3.1
 
 dev_dependencies:
   flutter_test:

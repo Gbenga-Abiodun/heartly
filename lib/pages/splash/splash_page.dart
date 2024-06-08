@@ -17,18 +17,18 @@ class SplashPage extends StatefulWidget {
   State<SplashPage> createState() => _SplashPageState();
 }
 
-
-
-
 class _SplashPageState extends State<SplashPage> {
-
-
   @override
   void initState() {
     // TODO: implement initState
     super.initState();
-    Timer(const Duration(seconds: 4,), () => Get.offAllNamed(RouteHelpers.getHomePage()));
+    Timer(
+        const Duration(
+          seconds: 3,
+        ),
+        () => Get.offAllNamed(RouteHelpers.getHomePage()));
   }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -38,15 +38,19 @@ class _SplashPageState extends State<SplashPage> {
           mainAxisAlignment: MainAxisAlignment.center,
           children: [
             DefaultTextStyle(
-              style:  TextStyle(
+              style: TextStyle(
                 fontSize: Dimensions.height10 * 6,
                 fontFamily: 'blackBerry',
+                fontWeight: FontWeight.bold,
               ),
               child: AnimatedTextKit(
-
-
                 animatedTexts: [
-                  TyperAnimatedText('Heartly', speed: Duration(seconds: 3,),),
+                  TyperAnimatedText(
+                    'Heartly',
+                    speed: Duration(
+                      milliseconds: 300,
+                    ),
+                  ),
 
                   // TyperAnimatedText('you must know what to do,'),
                   // TyperAnimatedText('and then do your best'),
@@ -58,7 +62,6 @@ class _SplashPageState extends State<SplashPage> {
                 // },
               ),
             ),
-
           ],
         ),
       ),

@@ -3,7 +3,7 @@ import 'package:get/get.dart';
 import 'package:heartly/helpers/dependencies.dart' as dep;
 import 'package:heartly/routes/route_helpers.dart';
 
-void main() async{
+void main() async {
   await dep.init();
   runApp(const MyApp());
 }
@@ -19,14 +19,13 @@ class MyApp extends StatelessWidget {
       theme: ThemeData(
         visualDensity: VisualDensity.adaptivePlatformDensity,
         fontFamily: "blackBerry",
-
-        // colorScheme: ,
-        // useMaterial3: true,
+        colorScheme: ColorScheme.fromSwatch(
+          primarySwatch: Colors.red,
+        ),
+        useMaterial3: true,
       ),
       getPages: RouteHelpers.routes,
       initialRoute: RouteHelpers.getInitial(),
     );
   }
 }
-
-
