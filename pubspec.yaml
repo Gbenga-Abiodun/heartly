@@ -42,6 +42,7 @@ dependencies:
   shared_preferences: ^2.2.3
   flutter_slidable:
   flutter_tts: ^4.0.2
+  flutter_gemini: ^2.0.4
 
 dev_dependencies:
   flutter_test:
