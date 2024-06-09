@@ -24,7 +24,7 @@ class _SplashPageState extends State<SplashPage> {
     super.initState();
     Timer(
         const Duration(
-          seconds: 3,
+          seconds: 4,
         ),
         () => Get.offAllNamed(RouteHelpers.getHomePage()));
   }
@@ -48,7 +48,7 @@ class _SplashPageState extends State<SplashPage> {
                   TyperAnimatedText(
                     'Heartly',
                     speed: Duration(
-                      milliseconds: 300,
+                      milliseconds: 330,
                     ),
                   ),
 

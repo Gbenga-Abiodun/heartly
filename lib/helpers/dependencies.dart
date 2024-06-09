@@ -1,17 +1,33 @@
-import 'package:flutter_gemini/flutter_gemini.dart';
 import 'package:get/get.dart';
+import 'package:heartly/controllers/gemini_controller.dart';
 import 'package:heartly/controllers/tips_controller.dart';
 
+
 Future<void> init() async {
-  final Gemini gemini = Gemini.init(apiKey: '--- Your Gemini Api Key ---');
+  // final hive = await ;
+  //
+  // final hiveBox  = await Hive.openBox("heartly-box");
+  // // final sharedPreferences = await SharedPreferences.getInstance();
+  // //
+  // //
+  // // Get.lazyPut(() => sharedPreferences, fenix: true,);
+  // // final Gemini gemini = Gemini.init(apiKey: '--- Your Gemini Api Key ---');
 
   Get.lazyPut(
     () => TipsController(),
     fenix: true,
   );
-
   Get.lazyPut(
-    () => gemini,
+    () => GeminiController(),
     fenix: true,
   );
+  // Get.lazyPut(
+  //   () => hive,
+  //   fenix: true,
+  // );
+
+  // Get.lazyPut(
+  //   () => gemini,
+  //   fenix: true,
+  // );
 }

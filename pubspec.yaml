@@ -42,8 +42,11 @@ dependencies:
 #  shared_preferences: ^2.2.3
   flutter_slidable:
   flutter_tts: ^3.2.2
+  hive_flutter: ^1.1.0
+  hive: ^2.2.3
   flutter_gemini: ^2.0.4
   cached_network_image: ^3.3.1
+  flutter_pixel: ^0.0.3
 
 dev_dependencies:
   flutter_test:

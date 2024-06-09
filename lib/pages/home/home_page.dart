@@ -1,19 +1,26 @@
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_pixel/flutter_pixel.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:get/get.dart';
+import 'package:heartly/controllers/gemini_controller.dart';
 import 'package:heartly/controllers/tips_controller.dart';
 import 'package:heartly/routes/route_helpers.dart';
+import 'package:heartly/utils/app_constants.dart';
 import 'package:heartly/utils/colors.dart';
 import 'package:heartly/widgets/big_text.dart';
 
 import '../../utils/dimensions.dart';
 
 class HomePage extends GetView<TipsController> {
-  const HomePage({Key? key}) : super(key: key);
+   HomePage({Key? key}) : super(key: key);
+
+
+  var geminiController = Get.find<GeminiController>();
 
   @override
   Widget build(BuildContext context) {
+    Authenticator.setApiToken(AppConstants.apiKeyImageGeneration,);
     return Scaffold(
       backgroundColor: Colors.white,
       appBar: AppBar(
@@ -29,18 +36,18 @@ class HomePage extends GetView<TipsController> {
         ),
         automaticallyImplyLeading: false,
         actions: [
-          Container(
-            margin: EdgeInsets.only(
-              right: Dimensions.height10 * 2,
-            ),
-            width: Dimensions.height10 * 5,
-            height: Dimensions.height10 * 5,
-            decoration: BoxDecoration(
-              color: Colors.white,
-              shape: BoxShape.circle,
-            ),
-            child: GestureDetector(
-              onTap: () {},
+          GestureDetector(
+            onTap: () => geminiController.generateTips(),
+            child: Container(
+              margin: EdgeInsets.only(
+                right: Dimensions.height10 * 2,
+              ),
+              width: Dimensions.height10 * 5,
+              height: Dimensions.height10 * 5,
+              decoration: BoxDecoration(
+                color: Colors.white,
+                shape: BoxShape.circle,
+              ),
               child: Icon(
                 FontAwesomeIcons.bell,
                 color: AppColors.heartColor,
@@ -122,7 +129,9 @@ class HomePage extends GetView<TipsController> {
         backgroundColor: AppColors.heartColor,
         // isExtended: true,
 
-        onPressed: () {},
+        onPressed: () {
+          // geminiController.generateHeartImage();
+        },
         child: Center(
           child: FaIcon(
             FontAwesomeIcons.add,
