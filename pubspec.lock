@@ -166,14 +166,6 @@ packages:
       url: "https://pub.dev"
     source: hosted
     version: "3.0.2"
-  flutter_pixel:
-    dependency: "direct main"
-    description:
-      name: flutter_pixel
-      sha256: "361075a397bee0679d03470990e2d4355bc1b16c18ffef0fb9f5fda25c9a9f26"
-      url: "https://pub.dev"
-    source: hosted
-    version: "0.0.3"
   flutter_slidable:
     dependency: "direct main"
     description:
@@ -241,7 +233,7 @@ packages:
     source: hosted
     version: "1.1.0"
   http:
-    dependency: transitive
+    dependency: "direct main"
     description:
       name: http
       sha256: "761a297c042deedc1ffbb156d6e2af13886bb305c2a343a4d972504cd67dd938"

@@ -1,6 +1,5 @@
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter_pixel/flutter_pixel.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:get/get.dart';
 import 'package:heartly/controllers/gemini_controller.dart';
@@ -20,7 +19,6 @@ class HomePage extends GetView<TipsController> {
 
   @override
   Widget build(BuildContext context) {
-    Authenticator.setApiToken(AppConstants.apiKeyImageGeneration,);
     return Scaffold(
       backgroundColor: Colors.white,
       appBar: AppBar(
@@ -120,7 +118,7 @@ class HomePage extends GetView<TipsController> {
               text: controller.tipsModel[index].TipTitle,
               size: Dimensions.height12 * 2,
               color: Colors.red,
-              fontWeight: FontWeight.bold,
+              // fontWeight: FontWeight.bold,
             ),
           );
         },

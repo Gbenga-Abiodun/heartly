@@ -1,9 +1,11 @@
+import 'dart:convert';
 import 'dart:typed_data';
 
+import 'package:flutter/material.dart';
 import 'package:flutter_gemini/flutter_gemini.dart';
-import 'package:flutter_pixel/flutter_pixel.dart';
 import 'package:get/get.dart';
 import 'package:heartly/utils/app_constants.dart';
+import 'package:http/http.dart' as http;
 
 class GeminiController extends GetxController {
   final Gemini gemini = Gemini.instance;
@@ -12,16 +14,16 @@ class GeminiController extends GetxController {
   void onInit() {
     // TODO: implement onInit
     super.onInit();
-
-    Authenticator.setApiToken(AppConstants.apiKeyImageGeneration,);
-
-
-// Replace this with your edenai API key (currently has a free plan as of 02/03/2024).
   }
 
   var tip = "".obs;
   var content = "".obs;
   var imagePath = "".obs;
+
+  var imageData = Rxn<Uint8List>();
+
+
+
 
   void generateTips() async {
     try {
@@ -35,7 +37,8 @@ class GeminiController extends GetxController {
         generateContent(
           title: value.output.toString(),
         );
-        await _generate("Generate an image based on this title ${tip}");
+        textToImage("Generate an image based on this title ${tip}");
+
       }).catchError((onError) {
         if (onError is GeminiException) {
           print(onError);
@@ -69,15 +72,51 @@ class GeminiController extends GetxController {
     }
   }
 
-  Future<Uint8List> _generate(String query) async {
-    // textController.clear();
-    // setState(() {
-    //   isTextEmpty = true;
-    // });
-    Uint8List image = await imageGenerator(query, ImageSize.medium);
-    print(image);
-    return image;
+  Future<dynamic> textToImage(String prompt) async {
+    String engineId = "stable-diffusion-v1-6";
+    String apiHost = 'https://api.stability.ai';
+    String apiKey = AppConstants.apiKeyImageGeneration;
+    debugPrint(prompt);
+    final response = await http.post(
+        Uri.parse('$apiHost/v1/generation/$engineId/text-to-image'),
+        headers: {
+          "Content-Type": "application/json",
+          "Accept": "image/png",
+          "Authorization": "Bearer $apiKey"
+        },
+        body: jsonEncode({
+          "text_prompts": [
+            {
+              "text": prompt,
+              "weight": 1,
+            }
+          ],
+          "cfg_scale": 7,
+          "height": 1024,
+          "width": 1024,
+          "samples": 1,
+          "steps": 30,
+        }));
+
+    if (response.statusCode == 200) {
+      try {
+        debugPrint(response.statusCode.toString());
+        imageData.value = response.bodyBytes;
+        print(response.bodyBytes);
+        // loadingChange(true);
+        // searchingChange(false);
+        // notifyListeners();
+      } on Exception {
+        debugPrint("failed to generate image");
+      }
+    } else {
+      debugPrint("failed to generate image");
+    }
   }
 
-  void storeDatabase() {}
+  void storeDatabase() {
+
+
+
+  }
 }
