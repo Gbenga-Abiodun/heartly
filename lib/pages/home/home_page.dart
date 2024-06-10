@@ -21,6 +21,7 @@ class HomePage extends GetView<SpeechController> {
 
   @override
   Widget build(BuildContext context) {
+
     return Scaffold(
       backgroundColor: Colors.white,
       appBar: AppBar(
@@ -70,9 +71,11 @@ class HomePage extends GetView<SpeechController> {
                   Dimensions.height12 * 1.333333333333333,
                 ),
               ),
-              child: Image.memory(
-                geminiController.tipsModel[index].image,
-                fit: BoxFit.fill,
+              child: Center(
+                child: Image.memory(
+                  geminiController.tipsModel[index].image,
+                  fit: BoxFit.cover,
+                ),
               ),
             ),
             trailing: Container(

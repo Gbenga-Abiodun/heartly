@@ -18,18 +18,24 @@ class SplashPage extends StatefulWidget {
   State<SplashPage> createState() => _SplashPageState();
 }
 
-
-
 class _SplashPageState extends State<SplashPage> {
+
+  // Future<void> _loadData()async{
+  //
+  //   ;
+  //
+  // }
   @override
   void initState() {
     // TODO: implement initState
     super.initState();
+    // _loadData();
     Timer(
-        const Duration(
-          seconds: 4,
-        ),
-        () => Get.find<GeminiController>().generateTips(),);
+      const Duration(
+        seconds: 4,
+      ),
+      () => Get.find<GeminiController>().generateTips()
+    );
   }
 
   @override

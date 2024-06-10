@@ -12,7 +12,7 @@ import 'package:http/http.dart' as http;
 
 class GeminiController extends GetxController {
   final Gemini gemini = Gemini.instance;
-  final _tipDatabase = Hive.box(
+  static final _tipDatabase = Hive.box(
     AppConstants.storageBox,
   );
 
@@ -36,23 +36,51 @@ class GeminiController extends GetxController {
           .text(
         "Give me a short heart tip very short as i said and dont add any  * ",
       )
-          .then((value) async {
-        print("tip :${value!.output}");
-        tip.value == value.output;
-        generateContent(
-          title: value.output.toString(),
-        );
-        await textToImage("Generate an image based on this title ${tip}");
-        storeDatabase();
-        getDatabaseList();
-        Get.offAllNamed(
-          RouteHelpers.getHomePage(),
-        );
+          .then((title) async {
+        await gemini
+            .text(
+          "Give me an informative short content on this heart tip ${title!.output} and dont add any * in the response you are giving me please let it be short and concise",
+        )
+            .then((content) async {
+          await textToImage("generate any human heart image").then((image) async{
+            storeDatabase(
+              title: title.output.toString(),
+              content: content!.output.toString(),
+              imageData: imageData.value!,
+            );
+            Get.offAllNamed(
+              RouteHelpers.getHomePage(),
+            );
+
+
+
+
+
+
+          });
+          print(
+            title.output.toString(),
+          );
+          print(
+            content!.output.toString(),
+          );
+
+          // print("Data : ${content!.output}");
+
+          // content.content =value.output!;
+          // print("content : ${content.value}");
+        }).catchError((onError) {
+          if (onError is GeminiException) {
+            print(onError);
+          } else {
+            print("An error occured gemini content");
+          }
+        });
       }).catchError((onError) {
         if (onError is GeminiException) {
           print(onError);
         } else {
-          print("An error occured");
+          print("An error occured gemini");
         }
       });
     } catch (e) {
@@ -60,26 +88,29 @@ class GeminiController extends GetxController {
     }
   }
 
-  void generateContent({required String title}) async {
-    try {
-      await gemini
-          .text(
-        "Give me an informative short content on this heart tip ${title} and dont add any * in the response you are giving me please let it be short and concise",
-      )
-          .then((value) {
-        print("content : ${value!.output}");
-        content.value == value.output;
-      }).catchError((onError) {
-        if (onError is GeminiException) {
-          print(onError);
-        } else {
-          print("An error occured");
-        }
-      });
-    } catch (e) {
-      print(e);
-    }
-  }
+  // void generateContent({required String title}) async {
+  //   try {
+  //     await gemini
+  //         .text(
+  //       "Give me an informative short content on this heart tip ${title} and dont add any * in the response you are giving me please let it be short and concise",
+  //     )
+  //         .then((value) {
+  //
+  //       print("Data : ${value!.output}");
+  //
+  //       content.value =value.output!;
+  //       print("content : ${content.value}");
+  //     }).catchError((onError) {
+  //       if (onError is GeminiException) {
+  //         print(onError);
+  //       } else {
+  //         print("An error occured");
+  //       }
+  //     });
+  //   } catch (e) {
+  //     print(e);
+  //   }
+  // }
 
   Uint8List convertStringToUint8List(String str) {
     final List<int> codeUnits = str.codeUnits;
@@ -130,30 +161,33 @@ class GeminiController extends GetxController {
     }
   }
 
-  void storeDatabase() async {
+  void storeDatabase(
+      {required String title,
+      required String content,
+      required Uint8List imageData}) async {
     await _tipDatabase.add({
-      "Title": tip.value,
-      "Content": content.value,
-      "imagePath": imageData.value,
+      "Title": title,
+      "Content": content,
+      "imagePath": imageData,
     });
+    getAllTips();
     print(
       "Hive Db" + _tipDatabase.length.toString(),
     );
   }
 
-  void getDatabaseList() async {
+  // Get All data  stored in hive
+  List<TipsModel> getAllTips() {
     final data = _tipDatabase.keys.map((key) {
       final value = _tipDatabase.get(key);
-      return TipsModel(
-        key: value["key"],
-        title: value["Title"],
-        content: value["Content"],
-        image: value["imagePath"],
-      );
+      return TipsModel(key: key, title: value["Title"], content: value["Content"], image: value["imagePath"]);
     }).toList();
-    tipsModel = data.reversed.toList();
 
-    // return da
-    print(tipsModel.length);
+    tipsModel = data.reversed.toList();
+    print(tipsModel);
+
+
+
+    return data.reversed.toList();
   }
 }
