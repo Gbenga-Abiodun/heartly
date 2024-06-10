@@ -65,7 +65,7 @@ class HomePage extends GetView<SpeechController> {
             visualDensity: VisualDensity.adaptivePlatformDensity,
             leading: Container(
               width: Dimensions.height10 * 6,
-              height: Dimensions.height10 * 7,
+              height: Dimensions.height10 * 6,
               decoration: BoxDecoration(
                 image: DecorationImage(image: MemoryImage(geminiController.tipsModel[index].image,), fit: BoxFit.cover,),
                 borderRadius: BorderRadius.circular(
