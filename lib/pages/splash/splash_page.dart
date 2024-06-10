@@ -57,7 +57,7 @@ class _SplashPageState extends State<SplashPage> {
                   TyperAnimatedText(
                     'Heartly',
                     speed: Duration(
-                      milliseconds: 330,
+                      seconds: 3,
                     ),
                   ),
 

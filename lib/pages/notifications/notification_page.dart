@@ -14,13 +14,13 @@ class NotificationPage extends StatelessWidget {
       appBar: AppBar(
         leading: Padding(
           padding: EdgeInsets.symmetric(
-            horizontal: 10,
+            horizontal: Dimensions.height10,
           ),
           child: GestureDetector(
             onTap: () => Get.back(),
-            child: const Icon(
+            child:  Icon(
               Icons.arrow_back_ios,
-              size: 24,
+              size: Dimensions.height12 * 2,
               color: Colors.white,
             ),
           ),

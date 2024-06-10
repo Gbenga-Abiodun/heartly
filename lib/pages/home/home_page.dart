@@ -28,9 +28,9 @@ class HomePage extends GetView<SpeechController> {
         toolbarHeight: Dimensions.height10 * 8,
         backgroundColor: AppColors.heartColor,
         title: Text(
-          "HomePage",
+          "Tips",
           style: TextStyle(
-            fontSize: Dimensions.height12 * 2.5,
+            fontSize: Dimensions.height12 * 2,
             color: Colors.white,
             fontWeight: FontWeight.bold,
           ),
@@ -38,7 +38,7 @@ class HomePage extends GetView<SpeechController> {
         automaticallyImplyLeading: false,
         actions: [
           GestureDetector(
-            // onTap: () => geminiController.generateTips(),
+            onTap: () => Get.toNamed(RouteHelpers.getNotificationPage(),),
             child: Container(
               margin: EdgeInsets.only(
                 right: Dimensions.height10 * 2,
@@ -65,18 +65,19 @@ class HomePage extends GetView<SpeechController> {
             visualDensity: VisualDensity.adaptivePlatformDensity,
             leading: Container(
               width: Dimensions.height10 * 6,
-              height: Dimensions.height10 * 6,
+              height: Dimensions.height10 * 7,
               decoration: BoxDecoration(
+                image: DecorationImage(image: MemoryImage(geminiController.tipsModel[index].image,), fit: BoxFit.cover,),
                 borderRadius: BorderRadius.circular(
                   Dimensions.height12 * 1.333333333333333,
                 ),
               ),
-              child: Center(
-                child: Image.memory(
-                  geminiController.tipsModel[index].image,
-                  fit: BoxFit.cover,
-                ),
-              ),
+              // child: Center(
+              //   child: Image.memory(
+              //     geminiController.tipsModel[index].image,
+              //     fit: BoxFit.contain,
+              //   ),
+              // ),
             ),
             trailing: Container(
               width: Dimensions.height10 * 5,

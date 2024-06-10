@@ -47,6 +47,7 @@ dependencies:
   flutter_gemini: ^2.0.4
   cached_network_image: ^3.3.1
   http:
+  flutter_spinkit: ^5.2.1
 
 
 dev_dependencies:

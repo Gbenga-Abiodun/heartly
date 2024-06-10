@@ -42,7 +42,8 @@ class GeminiController extends GetxController {
           "Give me an informative short content on this heart tip ${title!.output} and dont add any * in the response you are giving me please let it be short and concise",
         )
             .then((content) async {
-          await textToImage("generate any human heart image").then((image) async{
+          await textToImage("generate any human heart image")
+              .then((image) async {
             storeDatabase(
               title: title.output.toString(),
               content: content!.output.toString(),
@@ -51,12 +52,6 @@ class GeminiController extends GetxController {
             Get.offAllNamed(
               RouteHelpers.getHomePage(),
             );
-
-
-
-
-
-
           });
           print(
             title.output.toString(),
@@ -180,13 +175,15 @@ class GeminiController extends GetxController {
   List<TipsModel> getAllTips() {
     final data = _tipDatabase.keys.map((key) {
       final value = _tipDatabase.get(key);
-      return TipsModel(key: key, title: value["Title"], content: value["Content"], image: value["imagePath"]);
+      return TipsModel(
+          key: key,
+          title: value["Title"],
+          content: value["Content"],
+          image: value["imagePath"]);
     }).toList();
 
     tipsModel = data.reversed.toList();
     print(tipsModel);
-
-
 
     return data.reversed.toList();
   }

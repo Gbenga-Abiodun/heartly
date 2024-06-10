@@ -9,7 +9,7 @@ import 'package:hive_flutter/adapters.dart';
 
 void main() async {
   await dep.init();
-  Hive.box(AppConstants.storageBox).clear();
+  // Hive.box(AppConstants.storageBox).clear();
   runApp(const MyApp());
 }
 
