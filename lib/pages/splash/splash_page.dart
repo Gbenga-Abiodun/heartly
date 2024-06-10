@@ -4,6 +4,7 @@ import 'package:animated_text_kit/animated_text_kit.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:get/get_core/src/get_main.dart';
+import 'package:heartly/controllers/gemini_controller.dart';
 import 'package:heartly/utils/colors.dart';
 import 'package:heartly/widgets/big_text.dart';
 
@@ -17,6 +18,8 @@ class SplashPage extends StatefulWidget {
   State<SplashPage> createState() => _SplashPageState();
 }
 
+
+
 class _SplashPageState extends State<SplashPage> {
   @override
   void initState() {
@@ -26,7 +29,7 @@ class _SplashPageState extends State<SplashPage> {
         const Duration(
           seconds: 4,
         ),
-        () => Get.offAllNamed(RouteHelpers.getHomePage()));
+        () => Get.find<GeminiController>().generateTips(),);
   }
 
   @override

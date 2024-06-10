@@ -1,7 +1,7 @@
 import 'package:flutter_gemini/flutter_gemini.dart';
 import 'package:get/get.dart';
 import 'package:heartly/controllers/gemini_controller.dart';
-import 'package:heartly/controllers/tips_controller.dart';
+import 'package:heartly/controllers/speech_controller.dart';
 import 'package:hive/hive.dart';
 import 'package:hive_flutter/adapters.dart';
 
@@ -26,7 +26,7 @@ Future<void> init() async {
   // // final Gemini gemini = Gemini.init(apiKey: '--- Your Gemini Api Key ---');
 
   Get.lazyPut(
-    () => TipsController(),
+    () => SpeechController(),
     fenix: true,
   );
   Get.lazyPut(

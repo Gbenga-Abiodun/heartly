@@ -4,11 +4,19 @@ import 'dart:typed_data';
 import 'package:flutter/material.dart';
 import 'package:flutter_gemini/flutter_gemini.dart';
 import 'package:get/get.dart';
+import 'package:heartly/models/tips_model.dart';
+import 'package:heartly/routes/route_helpers.dart';
 import 'package:heartly/utils/app_constants.dart';
+import 'package:hive/hive.dart';
 import 'package:http/http.dart' as http;
 
 class GeminiController extends GetxController {
   final Gemini gemini = Gemini.instance;
+  final _tipDatabase = Hive.box(
+    AppConstants.storageBox,
+  );
+
+  List<TipsModel> tipsModel = [];
 
   @override
   void onInit() {
@@ -18,12 +26,9 @@ class GeminiController extends GetxController {
 
   var tip = "".obs;
   var content = "".obs;
-  var imagePath = "".obs;
+  // var imagePath = "".obs;
 
   var imageData = Rxn<Uint8List>();
-
-
-
 
   void generateTips() async {
     try {
@@ -31,14 +36,18 @@ class GeminiController extends GetxController {
           .text(
         "Give me a short heart tip very short as i said and dont add any  * ",
       )
-          .then((value) async{
+          .then((value) async {
         print("tip :${value!.output}");
         tip.value == value.output;
         generateContent(
           title: value.output.toString(),
         );
-        textToImage("Generate an image based on this title ${tip}");
-
+        await textToImage("Generate an image based on this title ${tip}");
+        storeDatabase();
+        getDatabaseList();
+        Get.offAllNamed(
+          RouteHelpers.getHomePage(),
+        );
       }).catchError((onError) {
         if (onError is GeminiException) {
           print(onError);
@@ -70,6 +79,13 @@ class GeminiController extends GetxController {
     } catch (e) {
       print(e);
     }
+  }
+
+  Uint8List convertStringToUint8List(String str) {
+    final List<int> codeUnits = str.codeUnits;
+    final Uint8List unit8List = Uint8List.fromList(codeUnits);
+
+    return unit8List;
   }
 
   Future<dynamic> textToImage(String prompt) async {
@@ -114,9 +130,30 @@ class GeminiController extends GetxController {
     }
   }
 
-  void storeDatabase() {
+  void storeDatabase() async {
+    await _tipDatabase.add({
+      "Title": tip.value,
+      "Content": content.value,
+      "imagePath": imageData.value,
+    });
+    print(
+      "Hive Db" + _tipDatabase.length.toString(),
+    );
+  }
 
+  void getDatabaseList() async {
+    final data = _tipDatabase.keys.map((key) {
+      final value = _tipDatabase.get(key);
+      return TipsModel(
+        key: value["key"],
+        title: value["Title"],
+        content: value["Content"],
+        image: value["imagePath"],
+      );
+    }).toList();
+    tipsModel = data.reversed.toList();
 
-
+    // return da
+    print(tipsModel.length);
   }
 }

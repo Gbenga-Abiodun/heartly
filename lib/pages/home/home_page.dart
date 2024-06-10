@@ -1,9 +1,12 @@
+import 'dart:convert';
+import 'dart:typed_data';
+
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:get/get.dart';
 import 'package:heartly/controllers/gemini_controller.dart';
-import 'package:heartly/controllers/tips_controller.dart';
+import 'package:heartly/controllers/speech_controller.dart';
 import 'package:heartly/routes/route_helpers.dart';
 import 'package:heartly/utils/app_constants.dart';
 import 'package:heartly/utils/colors.dart';
@@ -11,9 +14,8 @@ import 'package:heartly/widgets/big_text.dart';
 
 import '../../utils/dimensions.dart';
 
-class HomePage extends GetView<TipsController> {
-   HomePage({Key? key}) : super(key: key);
-
+class HomePage extends GetView<SpeechController> {
+  HomePage({Key? key}) : super(key: key);
 
   var geminiController = Get.find<GeminiController>();
 
@@ -35,7 +37,7 @@ class HomePage extends GetView<TipsController> {
         automaticallyImplyLeading: false,
         actions: [
           GestureDetector(
-            onTap: () => geminiController.generateTips(),
+            // onTap: () => geminiController.generateTips(),
             child: Container(
               margin: EdgeInsets.only(
                 right: Dimensions.height10 * 2,
@@ -56,7 +58,7 @@ class HomePage extends GetView<TipsController> {
         ],
       ),
       body: ListView.builder(
-        itemCount: controller.tipsModel.length,
+        itemCount: geminiController.tipsModel.length,
         itemBuilder: (context, index) {
           return ListTile(
             visualDensity: VisualDensity.adaptivePlatformDensity,
@@ -67,12 +69,10 @@ class HomePage extends GetView<TipsController> {
                 borderRadius: BorderRadius.circular(
                   Dimensions.height12 * 1.333333333333333,
                 ),
-                image: DecorationImage(
-                  fit: BoxFit.fill,
-                  image: CachedNetworkImageProvider(
-                    controller.tipsModel[index].TipImage,
-                  ),
-                ),
+              ),
+              child: Image.memory(
+                geminiController.tipsModel[index].image,
+                fit: BoxFit.fill,
               ),
             ),
             trailing: Container(
@@ -82,40 +82,24 @@ class HomePage extends GetView<TipsController> {
                 color: AppColors.heartColor,
                 shape: BoxShape.circle,
               ),
-              child: Obx(() {
-                return Center(
-                  child: controller.tipsModel[index].isSpeaking.isFalse
-                      ? GestureDetector(
-                          onTap: () {
-                            controller.speakText(
-                              controller.tipsModel[index],
-                            );
-                          },
-                          child: Center(
-                            child: FaIcon(
-                              FontAwesomeIcons.play,
-                              size: Dimensions.height12 * 2,
-                              color: Colors.white,
-                            ),
-                          ),
-                        )
-                      : GestureDetector(
-                          onTap: () {
-                            controller.flutterTts.pause();
-                          },
-                          child: Center(
-                            child: FaIcon(
-                              FontAwesomeIcons.pause,
-                              size: Dimensions.height12 * 2,
-                              color: Colors.white,
-                            ),
-                          ),
-                        ),
-                );
-              }),
+              child: Center(
+                  child: GestureDetector(
+                onTap: () {
+                  controller.speakText(
+                    geminiController.tipsModel[index].content,
+                  );
+                },
+                child: Center(
+                  child: FaIcon(
+                    FontAwesomeIcons.play,
+                    size: Dimensions.height12 * 2,
+                    color: Colors.white,
+                  ),
+                ),
+              )),
             ),
             title: BigText(
-              text: controller.tipsModel[index].TipTitle,
+              text: geminiController.tipsModel[index].title,
               size: Dimensions.height12 * 2,
               color: Colors.red,
               // fontWeight: FontWeight.bold,
