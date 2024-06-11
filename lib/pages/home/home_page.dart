@@ -1,8 +1,9 @@
 import 'dart:convert';
 import 'dart:typed_data';
 
-import 'package:cached_network_image/cached_network_image.dart';
+
 import 'package:flutter/material.dart';
+import 'package:flutter_slidable/flutter_slidable.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:get/get.dart';
 import 'package:heartly/controllers/gemini_controller.dart';
@@ -58,58 +59,82 @@ class HomePage extends GetView<SpeechController> {
           )
         ],
       ),
-      body: ListView.builder(
-        itemCount: geminiController.tipsModel.length,
-        itemBuilder: (context, index) {
-          return ListTile(
-            visualDensity: VisualDensity.adaptivePlatformDensity,
-            leading: Container(
-              width: Dimensions.height10 * 6,
-              height: Dimensions.height10 * 6,
-              decoration: BoxDecoration(
-                image: DecorationImage(image: MemoryImage(geminiController.tipsModel[index].image,), fit: BoxFit.cover,),
-                borderRadius: BorderRadius.circular(
-                  Dimensions.height12 * 1.333333333333333,
-                ),
-              ),
-              // child: Center(
-              //   child: Image.memory(
-              //     geminiController.tipsModel[index].image,
-              //     fit: BoxFit.contain,
-              //   ),
-              // ),
-            ),
-            trailing: Container(
-              width: Dimensions.height10 * 5,
-              height: Dimensions.height10 * 5,
-              decoration: BoxDecoration(
-                color: AppColors.heartColor,
-                shape: BoxShape.circle,
-              ),
-              child: Center(
-                  child: GestureDetector(
-                onTap: () {
-                  controller.speakText(
-                    geminiController.tipsModel[index].content,
-                  );
-                },
-                child: Center(
-                  child: FaIcon(
-                    FontAwesomeIcons.play,
-                    size: Dimensions.height12 * 2,
-                    color: Colors.white,
-                  ),
-                ),
-              )),
-            ),
-            title: BigText(
-              text: geminiController.tipsModel[index].title,
-              size: Dimensions.height12 * 2,
-              color: Colors.red,
-              // fontWeight: FontWeight.bold,
-            ),
-          );
+      body: RefreshIndicator(
+        color: AppColors.heartColor,
+        onRefresh: () async{
+          geminiController.getAllTip();
         },
+        child: ListView.builder(
+          padding: EdgeInsets.only(top: Dimensions.height10 * 2),
+          itemCount: geminiController.tipsModel.length,
+          itemBuilder: (context, index) {
+            return Slidable(
+              endActionPane: ActionPane(motion: BehindMotion(), children: [
+
+
+                SlidableAction(
+                  onPressed: (context) => geminiController.deleteTip(geminiController.tipsModel[index].key,),
+                  backgroundColor: AppColors.heartColor,
+                  icon: FontAwesomeIcons.trash,
+                  label: "Delete",
+
+                )
+              ]),
+
+              child: ListTile(
+                visualDensity: VisualDensity.adaptivePlatformDensity,
+                leading: Container(
+                  width: Dimensions.height10 * 6,
+                  height: Dimensions.height10 * 6,
+                  decoration: BoxDecoration(
+                    image: DecorationImage(
+                      image: MemoryImage(
+
+                      geminiController.tipsModel[index].image,), fit: BoxFit.cover,),
+                    borderRadius: BorderRadius.circular(
+                      Dimensions.height12 * 1.333333333333333,
+                    ),
+                  ),
+                  // child: Center(
+                  //   child: Image.memory(
+                  //     geminiController.tipsModel[index].image,
+                  //     fit: BoxFit.contain,
+                  //   ),
+                  // ),
+                ),
+                trailing: Container(
+                  width: Dimensions.height10 * 5,
+                  height: Dimensions.height10 * 5,
+                  decoration: BoxDecoration(
+                    color: AppColors.heartColor,
+                    shape: BoxShape.circle,
+                  ),
+                  child: Center(
+                      child: GestureDetector(
+                    onTap: () {
+                      controller.speakText(
+                        geminiController.tipsModel[index].content,
+                      );
+                    },
+                    child: Center(
+                      child: FaIcon(
+                        FontAwesomeIcons.volumeHigh,
+                        size: Dimensions.height12 * 2,
+                        color: Colors.white,
+                      ),
+                    ),
+                  )),
+                ),
+                title: BigText(
+                  text: geminiController.tipsModel[index].title,
+                  size: Dimensions.height12 * 2,
+                  color: Colors.red,
+                  // fontWeight: FontWeight.bold,
+                ),
+              ),
+            );
+          },
+        ),
       ),
       floatingActionButton: FloatingActionButton(
         backgroundColor: AppColors.heartColor,

@@ -24,9 +24,9 @@ class GeminiController extends GetxController {
     super.onInit();
   }
 
-  var tip = "".obs;
-  var content = "".obs;
-  // var imagePath = "".obs;
+  // var tip = "".obs;
+  // var content = "".obs;
+  // // var imagePath = "".obs;
 
   var imageData = Rxn<Uint8List>();
 
@@ -49,9 +49,7 @@ class GeminiController extends GetxController {
               content: content!.output.toString(),
               imageData: imageData.value!,
             );
-            Get.offAllNamed(
-              RouteHelpers.getHomePage(),
-            );
+
           });
           print(
             title.output.toString(),
@@ -107,12 +105,21 @@ class GeminiController extends GetxController {
   //   }
   // }
 
-  Uint8List convertStringToUint8List(String str) {
-    final List<int> codeUnits = str.codeUnits;
-    final Uint8List unit8List = Uint8List.fromList(codeUnits);
 
-    return unit8List;
+  Future<void> deleteTip(int key) async{
+
+
+     await _tipDatabase.delete(key);
+     getAllTips();
+
   }
+
+  // Uint8List convertStringToUint8List(String str) {
+  //   final List<int> codeUnits = str.codeUnits;
+  //   final Uint8List unit8List = Uint8List.fromList(codeUnits);
+  //
+  //   return unit8List;
+  // }
 
   Future<dynamic> textToImage(String prompt) async {
     String engineId = "stable-diffusion-v1-6";
@@ -170,6 +177,12 @@ class GeminiController extends GetxController {
       "Hive Db" + _tipDatabase.length.toString(),
     );
   }
+
+
+  Future<void> getAllTip()async{
+    getAllTips();
+  }
+
 
   // Get All data  stored in hive
   List<TipsModel> getAllTips() {
