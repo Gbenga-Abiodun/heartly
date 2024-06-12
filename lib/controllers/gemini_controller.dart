@@ -19,9 +19,10 @@ class GeminiController extends GetxController {
   List<TipsModel> tipsModel = [];
 
   @override
-  void onInit() {
+  void onReady() {
     // TODO: implement onInit
     super.onInit();
+    generateTips();
   }
 
   // var tip = "".obs;
@@ -48,6 +49,9 @@ class GeminiController extends GetxController {
               title: title.output.toString(),
               content: content!.output.toString(),
               imageData: imageData.value!,
+            );
+            Get.offAllNamed(
+              RouteHelpers.getHomePage(),
             );
 
           });

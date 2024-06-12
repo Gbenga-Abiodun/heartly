@@ -10,11 +10,7 @@ import '../utils/app_constants.dart';
 
 Future<void> init() async {
 
-   Gemini.init(
-    apiKey: AppConstants.apiKey,
-  );
-  await Hive.initFlutter();
-  await Hive.openBox(AppConstants.storageBox);
+
 
   // final hive = await ;
   //

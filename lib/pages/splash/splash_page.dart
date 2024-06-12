@@ -30,11 +30,14 @@ class _SplashPageState extends State<SplashPage> {
     super.initState();
     // _loadData();
     Timer(
-        const Duration(
-          seconds: 10,
-        ),
-        () =>    Get.find<GeminiController>().generateTips(),);
+      const Duration(
+        seconds: 8,
+      ),
+      () => Get.find<GeminiController>().generateTips(),
+    );
   }
+
+
 
   @override
   Widget build(BuildContext context) {
@@ -77,8 +80,13 @@ class _SplashPageState extends State<SplashPage> {
               color: Colors.white,
               fontWeight: FontWeight.bold,
             ),
-            SizedBox(height: Dimensions.height10 * 10,),
-            CircularProgressIndicator(color: Colors.grey, backgroundColor: Colors.white,),
+            SizedBox(
+              height: Dimensions.height10 * 10,
+            ),
+            CircularProgressIndicator(
+              color: Colors.grey,
+              backgroundColor: Colors.white,
+            ),
           ],
         ),
       ),
