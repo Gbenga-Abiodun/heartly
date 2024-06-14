@@ -4,25 +4,33 @@ import 'dart:typed_data';
 import 'package:flutter/material.dart';
 import 'package:flutter_gemini/flutter_gemini.dart';
 import 'package:get/get.dart';
+import 'package:heartly/database/sql_helper.dart';
+
 import 'package:heartly/models/tips_model.dart';
 import 'package:heartly/routes/route_helpers.dart';
 import 'package:heartly/utils/app_constants.dart';
-import 'package:hive/hive.dart';
+
 import 'package:http/http.dart' as http;
+
+// import 'object_box_controller.dart';
 
 class GeminiController extends GetxController {
   final Gemini gemini = Gemini.instance;
-  static final _tipDatabase = Hive.box(
-    AppConstants.storageBox,
-  );
 
-  List<TipsModel> tipsModel = [];
+  var tipsDatabase = Get.find<SQLHelper>();
+
+  // var boxController = Get.find<ObjectBoxController>();
+  // static final _tipDatabase = Hive.box(
+  //   AppConstants.storageBox,
+  // );
+
+  // List<TipsModel> tipsModel = [];
 
   @override
   void onReady() {
     // TODO: implement onInit
     super.onInit();
-    generateTips();
+    // generateTips();
   }
 
   // var tip = "".obs;
@@ -43,18 +51,16 @@ class GeminiController extends GetxController {
           "Give me an informative short content on this heart tip ${title!.output} and dont add any * in the response you are giving me please let it be short and concise",
         )
             .then((content) async {
-          await textToImage("generate any human heart image")
-              .then((image) async {
-            storeDatabase(
-              title: title.output.toString(),
-              content: content!.output.toString(),
-              imageData: imageData.value!,
-            );
-            Get.offAllNamed(
-              RouteHelpers.getHomePage(),
-            );
+          await tipsDatabase.createItem(
+            title.output.toString(),
+            content!.output.toString(),
+            "",
+          ).then((onValue)async{
+            await tipsDatabase.getItems();
 
           });
+
+
           print(
             title.output.toString(),
           );
@@ -109,14 +115,9 @@ class GeminiController extends GetxController {
   //   }
   // }
 
-
-  Future<void> deleteTip(int key) async{
-
-
-     await _tipDatabase.delete(key);
-     getAllTips();
-
-  }
+  // void deleteTip(int id) async {
+  //   boxController.deleteTip(id);
+  // }
 
   // Uint8List convertStringToUint8List(String str) {
   //   final List<int> codeUnits = str.codeUnits;
@@ -165,43 +166,5 @@ class GeminiController extends GetxController {
     } else {
       debugPrint("failed to generate image");
     }
-  }
-
-  void storeDatabase(
-      {required String title,
-      required String content,
-      required Uint8List imageData}) async {
-    await _tipDatabase.add({
-      "Title": title,
-      "Content": content,
-      "imagePath": imageData,
-    });
-    getAllTips();
-    print(
-      "Hive Db" + _tipDatabase.length.toString(),
-    );
-  }
-
-
-  Future<void> getAllTip()async{
-    getAllTips();
-  }
-
-
-  // Get All data  stored in hive
-  List<TipsModel> getAllTips() {
-    final data = _tipDatabase.keys.map((key) {
-      final value = _tipDatabase.get(key);
-      return TipsModel(
-          key: key,
-          title: value["Title"],
-          content: value["Content"],
-          image: value["imagePath"]);
-    }).toList();
-
-    tipsModel = data.reversed.toList();
-    print(tipsModel);
-
-    return data.reversed.toList();
   }
 }

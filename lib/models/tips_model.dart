@@ -1,42 +1,36 @@
-
-
-import 'dart:typed_data';
-
 class TipsModel {
-  final String title;
-  final int key;
+  late String title;
+  // Id id = Isar.autoIncrement;
+  late int? id;
 
-  final String content;
-  final Uint8List image;
+  late String content;
+  late String image;
 
   TipsModel({
-    required this.key,
+    // this.id = 0,
     required this.title,
     required this.content,
     required this.image,
+    this.id,
   });
 
-  // factory TipsModel.fromMap(Map<String, dynamic> map) {
-  //   return TipsModel(
-  //     title: map["Title"],
-  //     content: map["Content"],
-  //     image: map["imagePath"],
-  //     key: map["key"],
-  //   );
-  // }
+  factory TipsModel.fromMap(Map<String, dynamic> map) {
+    return TipsModel(
+      title: map["title"],
+      content: map["content"],
+      image: map["image"], id: map["id"],
+      // key: map["key"],
+    );
+  }
 
-  // Map<String, dynamic> toMap() {
-  //   return {
-  //     "Title": title,
-  //     "Content": content,
-  //     "imagePath": image,
-  //     "key": key,
-  //     // "phoneNumber": phoneNumber,
-  //     // "balance": balance,
-  //     // "hasDetails": hasDetails,
-  //     // // "phoneNumber": phoneNumber,
-  //     // "profilePicture": profilePicture,
-  //     // "name": name
-  //   };
-  // }
+  Map<String, dynamic> toMap() {
+    return {
+      "title": title,
+      "content": content,
+      "image": image,
+      "id": id,
+      // "key": key,
+
+    };
+  }
 }

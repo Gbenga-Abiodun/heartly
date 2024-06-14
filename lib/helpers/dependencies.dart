@@ -1,33 +1,34 @@
 import 'package:flutter_gemini/flutter_gemini.dart';
 import 'package:get/get.dart';
 import 'package:heartly/controllers/gemini_controller.dart';
+
 import 'package:heartly/controllers/speech_controller.dart';
-import 'package:hive/hive.dart';
-import 'package:hive_flutter/adapters.dart';
+import 'package:heartly/database/sql_helper.dart';
+
 
 import '../utils/app_constants.dart';
 
-
 Future<void> init() async {
-
-
-
-  // final hive = await ;
-  //
-  // final hiveBox  = await Hive.openBox("heartly-box");
-  // // final sharedPreferences = await SharedPreferences.getInstance();
-  // //
-  // //
-  // // Get.lazyPut(() => sharedPreferences, fenix: true,);
-  // // final Gemini gemini = Gemini.init(apiKey: '--- Your Gemini Api Key ---');
 
   Get.lazyPut(
     () => SpeechController(),
     fenix: true,
   );
+  // Get.lazyPut(
+  //   () => TipDatabase(),
+  // );
+
+  // Get.lazyPut(
+  //   () => ObjectBoxController,
+  //   // fenix: true,
+  // );
   Get.lazyPut(
     () => GeminiController(),
     fenix: true,
+  );
+  Get.lazyPut(
+    () => SQLHelper(),
+    // fenix: true,
   );
   // Get.lazyPut(
   //   () => hive,
