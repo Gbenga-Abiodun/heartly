@@ -1,5 +1,6 @@
 import 'package:flutter_gemini/flutter_gemini.dart';
 import 'package:get/get.dart';
+import 'package:heartly/controllers/bluetooth_controller.dart';
 import 'package:heartly/controllers/gemini_controller.dart';
 
 import 'package:heartly/controllers/speech_controller.dart';
@@ -28,6 +29,10 @@ Future<void> init() async {
   );
   Get.lazyPut(
     () => SQLHelper(),
+    // fenix: true,
+  );
+  Get.lazyPut(
+    () => BluetoothController(),
     // fenix: true,
   );
   // Get.lazyPut(

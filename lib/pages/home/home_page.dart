@@ -159,9 +159,7 @@ class HomePage extends GetView<SpeechController> {
         backgroundColor: AppColors.heartColor,
         // isExtended: true,
 
-        onPressed: () {
-          // geminiController.generateHeartImage();
-        },
+        onPressed: () => Get.toNamed(RouteHelpers.getconnectDevicePage(),),
         child: Center(
           child: FaIcon(
             FontAwesomeIcons.add,
