@@ -8,6 +8,13 @@ import 'package:permission_handler/permission_handler.dart';
 class BluetoothController extends GetxController {
   FlutterBlue ble = FlutterBlue.instance;
 
+  @override
+  void onInit() {
+    // TODO: implement onInit
+    super.onInit();
+    scanDevices();
+  }
+
   Stream<List<ScanResult>> get scanResults => ble.scanResults;
 
   Future scanDevices() async {

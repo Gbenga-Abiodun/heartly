@@ -33,7 +33,8 @@ Future<void> init() async {
   );
   Get.lazyPut(
     () => BluetoothController(),
-    // fenix: true,
+
+    fenix: true,
   );
   // Get.lazyPut(
   //   () => hive,

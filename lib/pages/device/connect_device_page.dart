@@ -58,7 +58,7 @@ class ConnectDevicePage extends StatelessWidget {
 
 
                   return ListView.builder(
-                    itemCount: 4,
+                    itemCount: snapshot.data!.length,
                     padding: EdgeInsets.only(top: 10),
                     scrollDirection: Axis.vertical,
                     physics: AlwaysScrollableScrollPhysics(),
@@ -118,17 +118,20 @@ class ConnectDevicePage extends StatelessWidget {
                           color: Colors.white,
                         ),
                       ),
-                      Container(
-                        width: 100,
-                        height: 80,
-                        alignment: Alignment.center,
-                        decoration: BoxDecoration(
-                          color: AppColors.heartColor,
-                          borderRadius: BorderRadius.circular(8),
-                        ),
-                        child: Text(
-                          "Search",
-                          style: TextStyle(fontSize: 18, color: Colors.white,),
+                      GestureDetector(
+                        onTap: () => bleController.scanDevices(),
+                        child: Container(
+                          width: 100,
+                          height: 80,
+                          alignment: Alignment.center,
+                          decoration: BoxDecoration(
+                            color: AppColors.heartColor,
+                            borderRadius: BorderRadius.circular(8),
+                          ),
+                          child: Text(
+                            "Search",
+                            style: TextStyle(fontSize: 18, color: Colors.white,),
+                          ),
                         ),
                       ),
                     ],
