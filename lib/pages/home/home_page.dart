@@ -5,6 +5,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_slidable/flutter_slidable.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:get/get.dart';
+import 'package:heartly/controllers/bluetooth_controller.dart';
 import 'package:heartly/controllers/gemini_controller.dart';
 import 'package:heartly/controllers/speech_controller.dart';
 
@@ -159,7 +160,10 @@ class HomePage extends GetView<SpeechController> {
         backgroundColor: AppColors.heartColor,
         // isExtended: true,
 
-        onPressed: () => Get.toNamed(RouteHelpers.getconnectDevicePage(),),
+        onPressed: () {
+          Get.find<BluetoothController>().scanDevices();
+          Get.toNamed(RouteHelpers.getconnectDevicePage(),);
+        },
         child: Center(
           child: FaIcon(
             FontAwesomeIcons.add,

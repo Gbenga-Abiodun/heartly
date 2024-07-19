@@ -8,7 +8,8 @@ import '../../utils/colors.dart';
 import '../../utils/dimensions.dart';
 
 class ConnectDevicePage extends StatelessWidget {
-  const ConnectDevicePage({Key? key}) : super(key: key);
+   ConnectDevicePage({Key? key}) : super(key: key);
+  var bleController = Get.find<BluetoothController>();
 
   @override
   Widget build(BuildContext context) {
@@ -49,8 +50,7 @@ class ConnectDevicePage extends StatelessWidget {
       ),
       backgroundColor: Colors.white,
       body: GetBuilder<BluetoothController>(
-          init: BluetoothController(),
-          builder: (bleController) {
+          builder: (_) {
             return StreamBuilder(
               stream: bleController.scanResults,
               builder: (context, snapshot) {
@@ -98,7 +98,7 @@ class ConnectDevicePage extends StatelessWidget {
                               color: AppColors.heartColor,
                               borderRadius: BorderRadius.circular(8),
                             ),
-                            child: Text(
+                            child: const Text(
                               "Connect",
                               style: TextStyle(fontSize: 16, color: Colors.white),
                             ),
@@ -140,6 +140,19 @@ class ConnectDevicePage extends StatelessWidget {
               },
             );
           }),
+      floatingActionButton: FloatingActionButton(
+        backgroundColor: AppColors.heartColor,
+        // isExtended: true,
+
+        onPressed: () => bleController.scanDevices(),
+        child: Center(
+          child: FaIcon(
+            FontAwesomeIcons.repeat,
+            color: Colors.white,
+            size: Dimensions.height12 * 2,
+          ),
+        ),
+      ),
     );
   }
 }

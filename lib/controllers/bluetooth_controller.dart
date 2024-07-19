@@ -12,22 +12,31 @@ class BluetoothController extends GetxController {
   void onInit() {
     // TODO: implement onInit
     super.onInit();
-    scanDevices();
+    // scanDevices();
   }
 
   Stream<List<ScanResult>> get scanResults => ble.scanResults;
 
   Future scanDevices() async {
-    if (await Permission.bluetoothScan.request().isGranted) {
-      if (await Permission.bluetoothConnect.request().isGranted) {
-        ble.startScan(
-          timeout: Duration(
-            seconds: 10,
-          ),
-        );
+    try {
+      if (await Permission.bluetoothScan.request().isGranted) {
+        if (await Permission.bluetoothConnect.request().isGranted) {
+          ble.startScan(
+            timeout: const Duration(
+              seconds: 10,
+            ),
+          );
 
-        ble.stopScan();
-      } else {}
-    } else {}
+          ble.stopScan();
+        } else {}
+      } else {
+        print("permission not granted");
+      }
+    } catch (e) {
+      Get.snackbar(
+        e.toString(),
+        e.toString(),
+      );
+    }
   }
 }
