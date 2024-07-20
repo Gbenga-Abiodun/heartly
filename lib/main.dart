@@ -1,3 +1,4 @@
+import 'package:awesome_notifications/awesome_notifications.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_gemini/flutter_gemini.dart';
 import 'package:get/get.dart';
@@ -8,6 +9,20 @@ import 'package:heartly/utils/app_constants.dart';
 
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
+  await AwesomeNotifications().initialize(null, [
+    NotificationChannel(
+      channelGroupKey: "heartly_channel_group",
+      playSound: true,
+      channelKey: "heartly",
+      channelName: "heartly",
+      channelDescription: "heartly notification channel",
+    )
+  ], channelGroups: [
+    NotificationChannelGroup(
+      channelGroupKey: "heartly_channel_group",
+      channelGroupName: "heartly",
+    ),
+  ]);
   Gemini.init(
     apiKey: AppConstants.apiKey,
   );

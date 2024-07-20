@@ -8,7 +8,7 @@ import '../../utils/colors.dart';
 import '../../utils/dimensions.dart';
 
 class ConnectDevicePage extends StatelessWidget {
-   ConnectDevicePage({Key? key}) : super(key: key);
+  ConnectDevicePage({Key? key}) : super(key: key);
   var bleController = Get.find<BluetoothController>();
 
   @override
@@ -31,39 +31,24 @@ class ConnectDevicePage extends StatelessWidget {
         title: Text(
           "Available devices",
           style:
-              TextStyle(fontSize: Dimensions.height12 * 2, color: Colors.white),
+          TextStyle(fontSize: Dimensions.height12 * 2, color: Colors.white),
         ),
         backgroundColor: AppColors.heartColor,
-        // automaticallyImplyLeading: false,
-        // actions: [
-        //   GestureDetector(
-        //     child: Padding(
-        //       padding: const EdgeInsets.all(8.0),
-        //       child: Icon(
-        //         FontAwesomeIcons.bell,
-        //         color: Colors.white,
-        //         size: 26,
-        //       ),
-        //     ),
-        //   )
-        // ],
       ),
       backgroundColor: Colors.white,
       body: GetBuilder<BluetoothController>(
+          init: BluetoothController(),
           builder: (_) {
-            return StreamBuilder(
-              stream: bleController.scanResults,
+            return StreamBuilder(stream: bleController.scanResults,
               builder: (context, snapshot) {
                 if (snapshot.hasData) {
-
-
                   return ListView.builder(
                     itemCount: snapshot.data!.length,
                     padding: EdgeInsets.only(top: 10),
                     scrollDirection: Axis.vertical,
                     physics: AlwaysScrollableScrollPhysics(),
                     itemBuilder: (context, index) {
-                      final data= snapshot.data![index];
+                      final data = snapshot.data![index];
                       return Padding(
                         padding: const EdgeInsets.only(
                           bottom: 10,
@@ -84,23 +69,36 @@ class ConnectDevicePage extends StatelessWidget {
                           ),
                           title: Text(
                             data.device.name,
-                            style: TextStyle(fontSize: 18, color: Colors.red,),
+                            style: TextStyle(
+                              fontSize: 18,
+                              color: Colors.red,
+                            ),
                           ),
                           subtitle: Text(
                             data.device.id.toString(),
-                            style: TextStyle(fontSize: 14, color: Colors.red,),
-                          ),
-                          trailing: Container(
-                            width: 80,
-                            height: 70,
-                            alignment: Alignment.center,
-                            decoration: BoxDecoration(
-                              color: AppColors.heartColor,
-                              borderRadius: BorderRadius.circular(8),
+                            style: TextStyle(
+                              fontSize: 14,
+                              color: Colors.red,
                             ),
-                            child: const Text(
-                              "Connect",
-                              style: TextStyle(fontSize: 16, color: Colors.white),
+                          ),
+                          trailing: GestureDetector(
+                            onTap: () =>
+                                bleController.connectToDevice(
+                                  data.device,
+                                ),
+                            child: Container(
+                              width: 80,
+                              height: 70,
+                              alignment: Alignment.center,
+                              decoration: BoxDecoration(
+                                color: AppColors.heartColor,
+                                borderRadius: BorderRadius.circular(8),
+                              ),
+                              child:  Text(
+                                bleController.isConnected.isFalse? "Connect": "Connected",
+                                style: TextStyle(
+                                    fontSize: 16, color: Colors.white),
+                              ),
                             ),
                           ),
                         ),
@@ -108,50 +106,32 @@ class ConnectDevicePage extends StatelessWidget {
                     },
                   );
                 } else {
-                  return Column(
-                    mainAxisAlignment: MainAxisAlignment.center,
-                    children: [
-                      Text(
-                        "No Bluetooth Device Found please Scan agaian",
-                        style: TextStyle(
-                          fontSize: 16,
-                          color: Colors.white,
-                        ),
-                      ),
-                      GestureDetector(
-                        onTap: () => bleController.scanDevices(),
-                        child: Container(
-                          width: 100,
-                          height: 80,
-                          alignment: Alignment.center,
-                          decoration: BoxDecoration(
-                            color: AppColors.heartColor,
-                            borderRadius: BorderRadius.circular(8),
-                          ),
-                          child: Text(
-                            "Search",
-                            style: TextStyle(fontSize: 18, color: Colors.white,),
-                          ),
-                        ),
-                      ),
-                    ],
+                  return const Center(
+                    child: Text("No Device Found", style: TextStyle(
+                      color: AppColors.heartColor,
+                      fontSize: 18,
+                    ),),
                   );
                 }
-              },
-            );
+              },);
           }),
       floatingActionButton: FloatingActionButton(
         backgroundColor: AppColors.heartColor,
         // isExtended: true,
 
-        onPressed: () => bleController.scanDevices(),
-        child: Center(
-          child: FaIcon(
-            FontAwesomeIcons.repeat,
-            color: Colors.white,
-            size: Dimensions.height12 * 2,
-          ),
-        ),
+        onPressed: () =>bleController.isRefreshing.isFalse ? bleController.onRefresh() : null,
+        child: Obx(() {
+          return Center(
+            child: bleController.isRefreshing.isFalse ? FaIcon(
+              FontAwesomeIcons.repeat,
+              color: Colors.white,
+              size: Dimensions.height12 * 2,
+            ) : const CircularProgressIndicator(
+              color: Colors.grey,
+              backgroundColor: Colors.white,
+            ),
+          );
+        }),
       ),
     );
   }
