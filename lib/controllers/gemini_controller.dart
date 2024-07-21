@@ -1,9 +1,11 @@
 import 'dart:convert';
 import 'dart:typed_data';
 
+import 'package:awesome_notifications/awesome_notifications.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_gemini/flutter_gemini.dart';
 import 'package:get/get.dart';
+import 'package:heartly/controllers/bluetooth_controller.dart';
 import 'package:heartly/database/sql_helper.dart';
 
 import 'package:heartly/models/tips_model.dart';
@@ -17,7 +19,11 @@ import 'package:http/http.dart' as http;
 class GeminiController extends GetxController {
   final Gemini gemini = Gemini.instance;
 
+  var geminiAdvice = "".obs;
+
   var tipsDatabase = Get.find<SQLHelper>();
+
+  List<String> notification = [];
 
   // var boxController = Get.find<ObjectBoxController>();
   // static final _tipDatabase = Hive.box(
@@ -51,15 +57,15 @@ class GeminiController extends GetxController {
           "Give me an informative short content on this heart tip ${title!.output} and dont add any * in the response you are giving me please let it be short and concise",
         )
             .then((content) async {
-          await tipsDatabase.createItem(
+          await tipsDatabase
+              .createItem(
             title.output.toString(),
             content!.output.toString(),
             "",
-          ).then((onValue)async{
+          )
+              .then((onValue) async {
             await tipsDatabase.getItems();
-
           });
-
 
           print(
             title.output.toString(),
@@ -88,6 +94,47 @@ class GeminiController extends GetxController {
       });
     } catch (e) {
       print(e);
+    }
+  }
+
+  String classifyHeartRate(String bpmStr) {
+    int bpm = int.tryParse(bpmStr) ?? 0;
+    if (bpm >= 80 && bpm <= 100) {
+      return 'normal';
+    } else {
+      return 'stressed';
+    }
+  }
+
+  void generateBmpRate({required String heartRate}) async {
+    try {
+      String condition = classifyHeartRate(heartRate);
+
+      final prompt = condition == 'normal'
+          ? 'Give normal medical advice.'
+          : 'Give medical advice for a stressed person.';
+      await gemini.text("condition").then(
+        (onValue) {
+          geminiAdvice.value = onValue.toString();
+          notification.add(
+            onValue.toString(),
+          );
+          AwesomeNotifications().createNotification(
+            content: NotificationContent(
+              id: 1,
+              channelKey: "heartly",
+              body: "Disconnected",
+              title: "Disconnected from  bluetooth device",
+            ),
+          );
+          Get.snackbar(
+            "Advice Generated!",
+            "Advice Generated Successfully",
+          );
+        },
+      );
+    } catch (e) {
+      print(e.toString());
     }
   }
 

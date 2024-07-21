@@ -7,11 +7,9 @@ import 'package:heartly/controllers/notification_controller.dart';
 import 'package:heartly/controllers/speech_controller.dart';
 import 'package:heartly/database/sql_helper.dart';
 
-
 import '../utils/app_constants.dart';
 
 Future<void> init() async {
-
   Get.lazyPut(
     () => SpeechController(),
     fenix: true,
@@ -21,14 +19,7 @@ Future<void> init() async {
     () => NotificationController(),
     fenix: true,
   );
-  // Get.lazyPut(
-  //   () => TipDatabase(),
-  // );
 
-  // Get.lazyPut(
-  //   () => ObjectBoxController,
-  //   // fenix: true,
-  // );
   Get.lazyPut(
     () => GeminiController(),
     fenix: true,
@@ -38,17 +29,9 @@ Future<void> init() async {
     // fenix: true,
   );
   Get.lazyPut(
-    () => BluetoothController(),
-
+    () => BluetoothController(
+      geminiController: Get.find(),
+    ),
     fenix: true,
   );
-  // Get.lazyPut(
-  //   () => hive,
-  //   fenix: true,
-  // );
-
-  // Get.lazyPut(
-  //   () => gemini,
-  //   fenix: true,
-  // );
 }

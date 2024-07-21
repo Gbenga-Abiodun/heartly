@@ -84,7 +84,7 @@ class HomePage extends GetView<SpeechController> {
                 Uint8List img = Uint8List.fromList(list);
                 // String img = String.fromCharCodes(bytes);
                 return Slidable(
-                  endActionPane: ActionPane(motion: BehindMotion(), children: [
+                  endActionPane: ActionPane(motion: const BehindMotion(), children: [
                     SlidableAction(
                       onPressed: (context) => tipDatabase.deleteItem(
                         tipDatabase.tipsList[index].id ?? 0,
