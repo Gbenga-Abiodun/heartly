@@ -72,6 +72,7 @@ class ConnectDevicePage extends StatelessWidget {
                             style: TextStyle(
                               fontSize: 18,
                               color: Colors.red,
+
                             ),
                           ),
                           subtitle: Text(
@@ -81,26 +82,37 @@ class ConnectDevicePage extends StatelessWidget {
                               color: Colors.red,
                             ),
                           ),
-                          trailing: GestureDetector(
-                            onTap: () =>
+                          trailing: Obx(() {
+                            return GestureDetector(
+                              onTap: () {
+                                bleController.selectedItemIndex.value = index;
                                 bleController.connectToDevice(
                                   data.device,
+                                );
+
+                              },
+
+
+                              child: Container(
+                                width: 80,
+                                height: 70,
+                                alignment: Alignment.center,
+                                decoration: BoxDecoration(
+                                  color: AppColors.heartColor,
+                                  borderRadius: BorderRadius.circular(8),
                                 ),
-                            child: Container(
-                              width: 80,
-                              height: 70,
-                              alignment: Alignment.center,
-                              decoration: BoxDecoration(
-                                color: AppColors.heartColor,
-                                borderRadius: BorderRadius.circular(8),
+                                child: bleController.isConnecting.isFalse && bleController.selectedItemIndex.value == index                                    ? Text(
+                                  bleController.isConnected.isFalse&& bleController.selectedItemIndex.value == index
+                                      ? "Connect"
+                                      : "Connected",
+                                  style: TextStyle(
+                                      fontSize: 16, color: Colors.white),
+                                )
+                                    : CircularProgressIndicator(
+                                  color: Colors.white,),
                               ),
-                              child:  Text(
-                                bleController.isConnected.isFalse? "Connect": "Connected",
-                                style: TextStyle(
-                                    fontSize: 16, color: Colors.white),
-                              ),
-                            ),
-                          ),
+                            );
+                          }),
                         ),
                       );
                     },

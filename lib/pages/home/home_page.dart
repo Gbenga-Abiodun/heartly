@@ -1,6 +1,7 @@
 import 'dart:convert';
 import 'dart:typed_data';
 
+import 'package:awesome_notifications/awesome_notifications.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_slidable/flutter_slidable.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
@@ -162,6 +163,15 @@ class HomePage extends GetView<SpeechController> {
 
         onPressed: () {
           Get.find<BluetoothController>().scanDevices();
+          // AwesomeNotifications().createNotification(
+          //   content: NotificationContent(
+          //     id: 1,
+          //     channelKey: "heartly",
+          //     body: "Connected to a bluetooth device please send in your string data",
+          //     title: "Connected to a bluetooth device",
+          //
+          //   ),
+          // );
           Get.toNamed(RouteHelpers.getconnectDevicePage(),);
         },
         child: Center(

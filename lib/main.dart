@@ -2,6 +2,7 @@ import 'package:awesome_notifications/awesome_notifications.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_gemini/flutter_gemini.dart';
 import 'package:get/get.dart';
+import 'package:heartly/controllers/notification_controller.dart';
 
 import 'package:heartly/helpers/dependencies.dart' as dep;
 import 'package:heartly/routes/route_helpers.dart';
@@ -20,9 +21,14 @@ void main() async {
   ], channelGroups: [
     NotificationChannelGroup(
       channelGroupKey: "heartly_channel_group",
-      channelGroupName: "heartly",
+      channelGroupName: "heartly Group",
     ),
   ]);
+
+  bool isAllowedToSendNotifications = await AwesomeNotifications().isNotificationAllowed();
+  if(!isAllowedToSendNotifications){
+    AwesomeNotifications().requestPermissionToSendNotifications();
+  }
   Gemini.init(
     apiKey: AppConstants.apiKey,
   );
@@ -36,6 +42,7 @@ class MyApp extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    Get.find<NotificationController>();
     return GetMaterialApp(
       debugShowCheckedModeBanner: false,
       title: 'Heartly',
