@@ -155,12 +155,28 @@ class BluetoothController extends GetxController {
   // }
 
   Future<void> connectToDevice(BluetoothDevice device) async {
-    await device.connect();
+    print(device);
+
+    await device.connect(
+      autoConnect: true,
+      timeout: Duration(
+        seconds: 30,
+      )
+    );
     Get.snackbar(
       "Connected!",
       "Please Send your string",
     );
-    isConnected.value = true;
+    device.state.listen((event) {
+      if(event == BluetoothDeviceState.connected){
+          print("device connected");
+          isConnected.value = true;
+      }else if(event == BluetoothDeviceState.connecting){
+        isConnected.value = false;
+      }else{
+        isConnected.value = false;
+      }
+    },);
     // Once connected, you can perform operations on the device.
   }
 }

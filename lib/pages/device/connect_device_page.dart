@@ -44,9 +44,9 @@ class ConnectDevicePage extends StatelessWidget {
                 if (snapshot.hasData) {
                   return ListView.builder(
                     itemCount: snapshot.data!.length,
-                    padding: EdgeInsets.only(top: 10),
+                    padding: const EdgeInsets.only(top: 10),
                     scrollDirection: Axis.vertical,
-                    physics: AlwaysScrollableScrollPhysics(),
+                    physics: const AlwaysScrollableScrollPhysics(),
                     itemBuilder: (context, index) {
                       final data = snapshot.data![index];
                       return Padding(
@@ -58,11 +58,11 @@ class ConnectDevicePage extends StatelessWidget {
                             alignment: Alignment.center,
                             width: 50,
                             height: 50,
-                            decoration: BoxDecoration(
+                            decoration: const BoxDecoration(
                               shape: BoxShape.circle,
                               color: AppColors.heartColor,
                             ),
-                            child: FaIcon(
+                            child: const FaIcon(
                               FontAwesomeIcons.bluetooth,
                               color: Colors.white,
                             ),
@@ -115,24 +115,24 @@ class ConnectDevicePage extends StatelessWidget {
                 }
               },);
           }),
-      floatingActionButton: FloatingActionButton(
-        backgroundColor: AppColors.heartColor,
-        // isExtended: true,
-
-        onPressed: () =>bleController.isRefreshing.isFalse ? bleController.onRefresh() : null,
-        child: Obx(() {
-          return Center(
-            child: bleController.isRefreshing.isFalse ? FaIcon(
-              FontAwesomeIcons.repeat,
-              color: Colors.white,
-              size: Dimensions.height12 * 2,
-            ) : const CircularProgressIndicator(
-              color: Colors.grey,
-              backgroundColor: Colors.white,
-            ),
-          );
-        }),
-      ),
+      // floatingActionButton: FloatingActionButton(
+      //   backgroundColor: AppColors.heartColor,
+      //   // isExtended: true,
+      //
+      //   onPressed: () =>bleController.isRefreshing.isFalse ? bleController.onRefresh() : null,
+      //   child: Obx(() {
+      //     return Center(
+      //       child: bleController.isRefreshing.isFalse ? FaIcon(
+      //         FontAwesomeIcons.repeat,
+      //         color: Colors.white,
+      //         size: Dimensions.height12 * 2,
+      //       ) : const CircularProgressIndicator(
+      //         color: Colors.grey,
+      //         backgroundColor: Colors.white,
+      //       ),
+      //     );
+      //   }),
+      // ),
     );
   }
 }
