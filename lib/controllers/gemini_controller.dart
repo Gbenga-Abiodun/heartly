@@ -1,4 +1,3 @@
-import 'dart:math';
 import 'dart:typed_data';
 
 import 'package:awesome_notifications/awesome_notifications.dart';
@@ -10,7 +9,6 @@ import 'package:heartly/database/sql_helper.dart';
 
 import '../models/advice_model.dart';
 
-
 class GeminiController extends GetxController {
   final Gemini gemini = Gemini.instance;
 
@@ -19,14 +17,12 @@ class GeminiController extends GetxController {
   List<AdviceModel> adviceModel = [];
 
   var tipsDatabase = Get.find<SQLHelper>();
-  var isTapped = 0.obs;
 
   List<String> notification = [];
 
   var imageData = Rxn<Uint8List>();
 
   void generateTips() async {
-
     try {
       await gemini
           .text(
@@ -54,7 +50,6 @@ class GeminiController extends GetxController {
           print(
             content!.output.toString(),
           );
-
         }).catchError((onError) {
           if (onError is GeminiException) {
             print(onError);
@@ -74,39 +69,34 @@ class GeminiController extends GetxController {
     }
   }
 
-  String classifyHeartRate(int Bpm) {
-    if (Bpm >= 80 && Bpm <= 100) {
+  String classifyHeartRate(String Bpm) {
+    int? parsedBmp = int.tryParse(Bpm);
+    if (parsedBmp! >= 80 && parsedBmp <= 100) {
       return 'normal';
     } else {
       return 'stressed';
     }
   }
 
-// Function to generate random BPM
-  int generateRandomBpm(int min, int max) {
-    final random = Random();
-    return min + random.nextInt(max - min + 1);
-  }
-
-// Your generateBmpRate function
-  void generateBmpRate() async {
+  void generateBmpRate(String heartRate) async {
     try {
-      int heartRate = generateRandomBpm(60, 120);
       String condition = classifyHeartRate(heartRate);
 
       final prompt = condition == 'normal'
           ? 'Give normal medical advice nothing more than 10 words'
           : 'Give normal medical advice for a stressed person nothing more than 10 words';
 
-     final geminiAdviceGen =  await gemini.text(prompt);
+      final geminiAdviceGen = await gemini.text(prompt);
 
       geminiAdvice = geminiAdviceGen!.output.toString();
       adviceModel = [
-        AdviceModel(advice: geminiAdviceGen.output.toString(),)
+        AdviceModel(
+          advice: geminiAdviceGen.output.toString(),
+        )
       ];
       update();
 
-      print( "advice model" + adviceModel.toString() );
+      print("advice model" + adviceModel.toString());
       notification.add(
         geminiAdviceGen.output.toString(),
       );
@@ -119,15 +109,14 @@ class GeminiController extends GetxController {
           title: "Advice Generated",
         ),
       );
-      isTapped.value = 1;
 
-      print(notification.toString(),);
+      print(
+        notification.toString(),
+      );
 
       print(geminiAdviceGen.toString() + "advice");
     } catch (e) {
       print(e.toString());
     }
   }
-
-
 }

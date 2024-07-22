@@ -11,11 +11,10 @@ import 'package:heartly/controllers/gemini_controller.dart';
 import 'package:heartly/controllers/speech_controller.dart';
 
 import 'package:heartly/routes/route_helpers.dart';
-import 'package:heartly/utils/app_constants.dart';
+
 import 'package:heartly/utils/colors.dart';
 import 'package:heartly/widgets/big_text.dart';
 
-// import '../../controllers/object_box_controller.dart';
 import '../../database/sql_helper.dart';
 import '../../utils/dimensions.dart';
 
@@ -23,6 +22,7 @@ class HomePage extends GetView<SpeechController> {
   HomePage({Key? key}) : super(key: key);
 
   var geminiController = Get.find<GeminiController>();
+  var bluetoothController = Get.find<BluetoothController>();
 
   var tipDatabase = Get.find<SQLHelper>();
 
@@ -46,9 +46,8 @@ class HomePage extends GetView<SpeechController> {
         automaticallyImplyLeading: false,
         actions: [
           GestureDetector(
-            onTap: ()  {
-              geminiController.generateBmpRate();
-               Get.toNamed(
+            onTap: () {
+              Get.toNamed(
                 RouteHelpers.getNotificationPage(),
               );
             },
@@ -161,14 +160,7 @@ class HomePage extends GetView<SpeechController> {
         // isExtended: true,
 
         onPressed: () {
-          AwesomeNotifications().createNotification(
-            content: NotificationContent(
-              id: 1,
-              channelKey: "heartly",
-              body: "Bluetooth device",
-              title: "Searching for Bluetooth device",
-            ),
-          );
+
           Get.toNamed(
             RouteHelpers.getconnectDevicePage(),
           );

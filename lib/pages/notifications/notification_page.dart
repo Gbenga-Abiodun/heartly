@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:get/get.dart';
+import 'package:heartly/controllers/bluetooth_controller.dart';
 import 'package:heartly/controllers/gemini_controller.dart';
 import 'package:heartly/controllers/speech_controller.dart';
 
@@ -15,6 +16,7 @@ class NotificationPage extends GetView<GeminiController> {
 
   @override
   Widget build(BuildContext context) {
+
     return Scaffold(
       backgroundColor: Colors.white,
       appBar: AppBar(
