@@ -116,7 +116,7 @@ class GeminiController extends GetxController {
           id: 1,
           channelKey: "heartly",
           body: "Connected to Device",
-          title: "Please check notification Page for advice",
+          title: "Advice Generated",
         ),
       );
       isTapped.value = 1;
