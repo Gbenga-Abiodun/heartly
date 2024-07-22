@@ -25,6 +25,7 @@ class HomePage extends GetView<SpeechController> {
   var geminiController = Get.find<GeminiController>();
 
   var tipDatabase = Get.find<SQLHelper>();
+
   // var storage = Get.find<ObjectBoxController>();
 
   @override
@@ -45,16 +46,20 @@ class HomePage extends GetView<SpeechController> {
         automaticallyImplyLeading: false,
         actions: [
           GestureDetector(
-            onTap: () => Get.toNamed(
-              RouteHelpers.getNotificationPage(),
-            ),
+            onTap: ()  {
+              geminiController.generateBmpRate();
+               Get.toNamed(
+                RouteHelpers.getNotificationPage(),
+              );
+            },
             child: Container(
               margin: EdgeInsets.only(
                 right: Dimensions.height10 * 2,
               ),
               width: Dimensions.height10 * 5,
               height: Dimensions.height10 * 5,
-              decoration: BoxDecoration(
+              alignment: Alignment.center,
+              decoration: const BoxDecoration(
                 color: Colors.white,
                 shape: BoxShape.circle,
               ),
@@ -74,105 +79,99 @@ class HomePage extends GetView<SpeechController> {
         },
         child: GetBuilder<SQLHelper>(
 
-          // stream: null,
-          builder: (_) {
-            return ListView.builder(
-              padding: EdgeInsets.only(top: Dimensions.height10 * 2),
-              itemCount: tipDatabase.tipsList.length,
-              itemBuilder: (context, index) {
-                List<int> list = tipDatabase.tipsList[index].image.codeUnits;
-                Uint8List img = Uint8List.fromList(list);
-                // String img = String.fromCharCodes(bytes);
-                return Slidable(
-                  endActionPane: ActionPane(motion: const BehindMotion(), children: [
-                    SlidableAction(
-                      onPressed: (context) => tipDatabase.deleteItem(
-                        tipDatabase.tipsList[index].id ?? 0,
-                      ),
-                      backgroundColor: AppColors.heartColor,
-                      icon: FontAwesomeIcons.trash,
-                      label: "Delete",
-                    )
-                  ]),
-                  child: ListTile(
-                    visualDensity: VisualDensity.adaptivePlatformDensity,
-                    leading: Container(
-                      width: Dimensions.height10 * 6,
-                      height: Dimensions.height10 * 6,
-                      decoration: BoxDecoration(
-                        image: DecorationImage(
-                          image: tipDatabase.tipsList[index].image.isNotEmpty
-                              ? MemoryImage(
-                                  img,
-                                )
-                              : NetworkImage(
-                                  "https://images.unsplash.com/photo-1530026405186-ed1f139313f8?w=600&auto=format&fit=crop&q=60&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxzZWFyY2h8M3x8aHVtYW4lMjBoZWFydHxlbnwwfHwwfHx8MA%3D%3D",
-                                ),
-                          fit: BoxFit.cover,
-                        ),
-                        borderRadius: BorderRadius.circular(
-                          Dimensions.height12 * 1.333333333333333,
-                        ),
-                      ),
-                      // child: Center(
-                      //   child: Image.memory(
-                      //     geminiController.tipsModel[index].image,
-                      //     fit: BoxFit.contain,
-                      //   ),
-                      // ),
+            // stream: null,
+            builder: (_) {
+          return ListView.builder(
+            padding: EdgeInsets.only(top: Dimensions.height10 * 2),
+            itemCount: tipDatabase.tipsList.length,
+            itemBuilder: (context, index) {
+              List<int> list = tipDatabase.tipsList[index].image.codeUnits;
+              Uint8List img = Uint8List.fromList(list);
+              // String img = String.fromCharCodes(bytes);
+              return Slidable(
+                endActionPane:
+                    ActionPane(motion: const BehindMotion(), children: [
+                  SlidableAction(
+                    onPressed: (context) => tipDatabase.deleteItem(
+                      tipDatabase.tipsList[index].id ?? 0,
                     ),
-                    trailing: Container(
-                      width: Dimensions.height10 * 5,
-                      height: Dimensions.height10 * 5,
-                      decoration: BoxDecoration(
-                        color: AppColors.heartColor,
-                        shape: BoxShape.circle,
+                    backgroundColor: AppColors.heartColor,
+                    icon: FontAwesomeIcons.trash,
+                    label: "Delete",
+                  )
+                ]),
+                child: ListTile(
+                  visualDensity: VisualDensity.adaptivePlatformDensity,
+                  leading: Container(
+                    width: Dimensions.height10 * 6,
+                    height: Dimensions.height10 * 6,
+                    decoration: BoxDecoration(
+                      image: DecorationImage(
+                        image: tipDatabase.tipsList[index].image.isNotEmpty
+                            ? MemoryImage(
+                                img,
+                              )
+                            : NetworkImage(
+                                "https://images.unsplash.com/photo-1530026405186-ed1f139313f8?w=600&auto=format&fit=crop&q=60&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxzZWFyY2h8M3x8aHVtYW4lMjBoZWFydHxlbnwwfHwwfHx8MA%3D%3D",
+                              ),
+                        fit: BoxFit.cover,
                       ),
-                      child: Center(
-                          child: GestureDetector(
-                        onTap: () {
-                          controller.speakText(
-                            tipDatabase.tipsList[index].content,
-                          );
-                        },
-                        child: Center(
-                          child: FaIcon(
-                            FontAwesomeIcons.volumeHigh,
-                            size: Dimensions.height12 * 2,
-                            color: Colors.white,
-                          ),
-                        ),
-                      )),
-                    ),
-                    title: BigText(
-                      text: tipDatabase.tipsList[index].title,
-                      size: Dimensions.height12 * 2,
-                      color: Colors.red,
-                      // fontWeight: FontWeight.bold,
+                      borderRadius: BorderRadius.circular(
+                        Dimensions.height12 * 1.333333333333333,
+                      ),
                     ),
                   ),
-                );
-              },
-            );
-          }
-        ),
+                  trailing: Container(
+                    width: Dimensions.height10 * 5,
+                    height: Dimensions.height10 * 5,
+                    decoration: BoxDecoration(
+                      color: AppColors.heartColor,
+                      shape: BoxShape.circle,
+                    ),
+                    child: Center(
+                        child: GestureDetector(
+                      onTap: () {
+                        controller.speakText(
+                          tipDatabase.tipsList[index].content,
+                        );
+                      },
+                      child: Center(
+                        child: FaIcon(
+                          FontAwesomeIcons.volumeHigh,
+                          size: Dimensions.height12 * 2,
+                          color: Colors.white,
+                        ),
+                      ),
+                    )),
+                  ),
+                  title: BigText(
+                    text: tipDatabase.tipsList[index].title,
+                    size: Dimensions.height12 * 2,
+                    color: Colors.red,
+                    // fontWeight: FontWeight.bold,
+                  ),
+                ),
+              );
+            },
+          );
+        }),
       ),
       floatingActionButton: FloatingActionButton(
         backgroundColor: AppColors.heartColor,
         // isExtended: true,
 
         onPressed: () {
-          Get.find<BluetoothController>().scanDevices();
-          // AwesomeNotifications().createNotification(
-          //   content: NotificationContent(
-          //     id: 1,
-          //     channelKey: "heartly",
-          //     body: "Connected to a bluetooth device please send in your string data",
-          //     title: "Connected to a bluetooth device",
-          //
-          //   ),
-          // );
-          Get.toNamed(RouteHelpers.getconnectDevicePage(),);
+          AwesomeNotifications().createNotification(
+            content: NotificationContent(
+              id: 1,
+              channelKey: "heartly",
+              body: "Bluetooth device",
+              title: "Searching for Bluetooth device",
+            ),
+          );
+          Get.toNamed(
+            RouteHelpers.getconnectDevicePage(),
+          );
         },
         child: Center(
           child: FaIcon(

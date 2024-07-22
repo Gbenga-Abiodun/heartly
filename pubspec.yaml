@@ -46,7 +46,7 @@ dependencies:
   flutter_animate:
   awesome_notifications:
   sqflite: ^2.3.3+1
-  flutter_blue_plus:
+#  flutter_blue_plus:
 #  flutter_blue: ^0.8.0
 
   flutter_gemini: ^2.0.4

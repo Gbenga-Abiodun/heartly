@@ -34,81 +34,66 @@ class NotificationPage extends GetView<GeminiController> {
         title: Text(
           "Notifications",
           style:
-              TextStyle(fontSize: Dimensions.height12 * 2, color: Colors.white),
+          TextStyle(fontSize: Dimensions.height12 * 2, color: Colors.white),
         ),
         backgroundColor: AppColors.heartColor,
-        // automaticallyImplyLeading: false,
-        // actions: [
-        //   GestureDetector(
-        //     child: Padding(
-        //       padding: const EdgeInsets.all(8.0),
-        //       child: Icon(
-        //         FontAwesomeIcons.bell,
-        //         color: Colors.white,
-        //         size: 26,
-        //       ),
-        //     ),
-        //   )
-        // ],
+
       ),
-      body: ListView.builder(
-        itemCount: controller.notification.length,
-        itemBuilder: (context, index) {
-          return ListTile(
-            visualDensity: VisualDensity.adaptivePlatformDensity,
-            leading: Container(
-              width: Dimensions.height10 * 6,
-              height: Dimensions.height10 * 6,
-              decoration: BoxDecoration(
-                image: const DecorationImage(
-                  image: NetworkImage(
-                    "https://images.unsplash.com/photo-1530026405186-ed1f139313f8?w=600&auto=format&fit=crop&q=60&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxzZWFyY2h8M3x8aHVtYW4lMjBoZWFydHxlbnwwfHwwfHx8MA%3D%3D",
+      body: GetBuilder<GeminiController>(builder: (_) {
+        return ListView.builder(
+          itemCount: controller.adviceModel.length,
+          itemBuilder: (context, index) {
+            return ListTile(
+              visualDensity: VisualDensity.adaptivePlatformDensity,
+              leading: Container(
+                width: Dimensions.height10 * 6,
+                height: Dimensions.height10 * 6,
+                decoration: BoxDecoration(
+                  image: const DecorationImage(
+                    image: NetworkImage(
+                      "https://images.unsplash.com/photo-1530026405186-ed1f139313f8?w=600&auto=format&fit=crop&q=60&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxzZWFyY2h8M3x8aHVtYW4lMjBoZWFydHxlbnwwfHwwfHx8MA%3D%3D",
+                    ),
+                    fit: BoxFit.cover,
                   ),
-                  fit: BoxFit.cover,
+                  borderRadius: BorderRadius.circular(
+                    Dimensions.height12 * 1.333333333333333,
+                  ),
                 ),
-                borderRadius: BorderRadius.circular(
-                  Dimensions.height12 * 1.333333333333333,
+
+              ),
+              trailing: Container(
+                width: Dimensions.height10 * 5,
+                height: Dimensions.height10 * 5,
+                decoration: BoxDecoration(
+                  color: AppColors.heartColor,
+                  shape: BoxShape.circle,
                 ),
-              ),
-              // child: Center(
-              //   child: Image.memory(
-              //     geminiController.tipsModel[index].image,
-              //     fit: BoxFit.contain,
-              //   ),
-              // ),
-            ),
-            trailing: Container(
-              width: Dimensions.height10 * 5,
-              height: Dimensions.height10 * 5,
-              decoration: BoxDecoration(
-                color: AppColors.heartColor,
-                shape: BoxShape.circle,
-              ),
-              child: Center(
-                  child: GestureDetector(
-                onTap: () {
-                  speechController.speakText(
-                    controller.notification[index],
-                  );
-                },
                 child: Center(
-                  child: FaIcon(
-                    FontAwesomeIcons.volumeHigh,
-                    size: Dimensions.height12 * 2,
-                    color: Colors.white,
-                  ),
-                ),
-              )),
-            ),
-            title: BigText(
-              text: controller.notification[index],
-              size: Dimensions.height12 * 2,
-              color: Colors.red,
-              // fontWeight: FontWeight.bold,
-            ),
-          );
-        },
-      ),
+                    child: GestureDetector(
+                      onTap: () {
+                        speechController.speakText(
+                          controller.adviceModel[index].advice,
+                        );
+                      },
+                      child: Center(
+                        child: FaIcon(
+                          FontAwesomeIcons.volumeHigh,
+                          size: Dimensions.height12 * 2,
+                          color: Colors.white,
+                        ),
+                      ),
+                    )),
+              ),
+              title: BigText(
+                text: controller.adviceModel[index].advice,
+                size: Dimensions.height12 * 2,
+                color: Colors.red,
+                // fontWeight: FontWeight.bold,
+              ),
+            );
+          },
+        );
+      }),
     );
   }
 }

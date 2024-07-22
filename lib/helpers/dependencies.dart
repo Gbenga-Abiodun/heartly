@@ -26,12 +26,5 @@ Future<void> init() async {
   );
   Get.lazyPut(
     () => SQLHelper(),
-    // fenix: true,
-  );
-  Get.lazyPut(
-    () => BluetoothController(
-      geminiController: Get.find(),
-    ),
-    fenix: true,
   );
 }
